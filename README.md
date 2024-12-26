@@ -6,8 +6,8 @@ This project is a full-stack Amazon clone built using modern web technologies. I
 
 ## Demo & Design
 
-*   [**Live Demo**](https://amazon-clone-example.vercel.app))
-*   [**Figma Design**](https://www.figma.com/file/your-figma-file-id))
+*   Here is the [**Live Demo**](https://amazon-clone-example.vercel.app)
+*   .. And the [**System Design**](https://www.figma.com/file/your-figma-file-id)
 
 ## Tech Stack
 
