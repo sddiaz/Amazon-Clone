@@ -15,16 +15,16 @@ This project leverages the following technologies:
 
 *   **Frontend:**
     *   [Next.js](https://nextjs.org/): React framework for server-side rendering and improved performance.
-    *   [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development. (Consider adding if used)
-    *   [React Icons](https://react-icons.github.io/react-icons/): Easily add icons to your React projects. (Consider adding if used)
+    *   [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.
+    *   [React Icons](https://react-icons.github.io/react-icons/): Easily add icons to your React projects.
 *   **Backend & Database:**
     *   [Firebase](https://firebase.google.com/): Backend-as-a-service providing authentication, database (Firestore), and storage.
 *   **Payment Processing:**
     *   [Stripe](https://stripe.com/): Secure and reliable payment gateway integration.
 *   **Deployment:**
-    *   [Vercel](https://vercel.com/): (If used) Platform for easy deployment of Next.js applications.
+    *   [Vercel](https://vercel.com/): Platform for easy deployment of Next.js applications.
 *   **State Management:**
-    *   [Context API](https://reactjs.org/docs/context.html): (Or Redux/Zustand if used) For managing application state.
+    *   [RTK Query]([https://reactjs.org/docs/context.html](https://redux-toolkit.js.org/rtk-query/overview)): For managing application state.
 
 ## Features
 
