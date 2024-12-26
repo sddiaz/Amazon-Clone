@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project is a full-stack Amazon clone built using modern web technologies. It aims to replicate core Amazon functionalities such as product browsing, adding to cart, checkout, and order management.
+This project is a full-stack Amazon clone built using modern web technologies. It aims to replicate core Amazon functionalities such as user login/authenticaiton, payments, checkout, order history, some core settings, and more. 
 
 ## Demo & Design
 
