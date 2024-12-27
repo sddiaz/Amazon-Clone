@@ -12,19 +12,39 @@ This project is a full-stack Amazon clone built using modern web technologies. I
 ## Tech Stack
 
 This project leverages the following technologies:
+---
 
-*   **Frontend:**
-    *   [Next.js](https://nextjs.org/): React framework for server-side rendering and improved performance.
-    *   [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.
-    *   [React Icons](https://react-icons.github.io/react-icons/): Easily add icons to your React projects.
-*   **Backend & Database:**
-    *   [Firebase](https://firebase.google.com/): Backend-as-a-service providing authentication, database (Firestore), and storage.
-*   **Payment Processing:**
-    *   [Stripe](https://stripe.com/): Secure and reliable payment gateway integration.
-*   **Deployment:**
-    *   [Vercel](https://vercel.com/): Platform for easy deployment of Next.js applications.
-*   **State Management:**
-    *   [RTK Query]([https://reactjs.org/docs/context.html](https://redux-toolkit.js.org/rtk-query/overview)): For managing application state.
+### **Frontend:**
+*   [React.js](https://reactjs.org/): A JavaScript library for building user interfaces.  
+*   [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.  
+*   [RTK Query]([https://reactrouter.com/](https://redux-toolkit.js.org/rtk-query/overview)): State Management for React
+
+---
+
+### **Backend & Database:**
+*   [AWS Lambda](https://aws.amazon.com/lambda/): Serverless compute service for backend logic.  
+*   [Amazon API Gateway](https://aws.amazon.com/api-gateway/): Service for creating, publishing, and managing REST APIs.  
+*   [Amazon DynamoDB](https://aws.amazon.com/dynamodb/): Scalable NoSQL database service.  
+*   [Amazon Cognito](https://aws.amazon.com/cognito/): User authentication and authorization service.  
+
+---
+
+### **Payment Processing:**
+*   [Stripe](https://stripe.com/): Secure and reliable payment gateway integration for checkout flows.  
+
+---
+
+### **Deployment:**
+*   [AWS Amplify](https://aws.amazon.com/amplify/): Full-stack deployment and hosting service.  
+*   [Amazon CloudFront](https://aws.amazon.com/cloudfront/): Global content delivery network (CDN) for fast and secure asset delivery.  
+*   [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/): Free SSL certificates for secure HTTPS traffic.  
+
+---
+
+### **State Management:**
+*   [Redux Toolkit](https://redux-toolkit.js.org/): Simplified Redux development for managing application state.  
+*   [React Context API](https://reactjs.org/docs/context.html): Built-in React feature for managing state at a global level.  
+
 
 ## Features
 
