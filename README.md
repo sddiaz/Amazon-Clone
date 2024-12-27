@@ -17,8 +17,6 @@ This project leverages the following technologies:
 ### **Frontend:**
 *   [React.js](https://reactjs.org/): A JavaScript library for building user interfaces.  
 *   [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.  
-*   [RTK Query]([https://reactrouter.com/](https://redux-toolkit.js.org/rtk-query/overview)): State Management for React
-
 ---
 
 ### **Backend & Database:**
@@ -43,7 +41,6 @@ This project leverages the following technologies:
 
 ### **State Management:**
 *   [Redux Toolkit](https://redux-toolkit.js.org/): Simplified Redux development for managing application state.  
-*   [React Context API](https://reactjs.org/docs/context.html): Built-in React feature for managing state at a global level.  
 
 
 ## Features
