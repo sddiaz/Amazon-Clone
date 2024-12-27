@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #e3e6e6;
+  --foreground: #0f1111;
+  --darkBlue: #131921;
+  --navyBlue: #131a22;
+  --amazonBlue: #232f3e;
+  --amazonBlueLight: #37475a;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.hover-border {
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: border 0.3s ease-in-out;
+}
+
+.hover-border:hover {
+  border-color: white;
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  src: url('/fonts/Ember/Amazon-Ember-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
