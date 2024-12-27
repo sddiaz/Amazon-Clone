@@ -7,7 +7,7 @@ This project is a full-stack Amazon clone built using modern web technologies. I
 ## Demo & Design
 
 *   Here is the [**Live Demo**](https://amazon-clone-example.vercel.app)
-*   .. And the [**System Design**](![image](https://github.com/user-attachments/assets/7032b5fa-8429-4a9c-ac2c-4bb50ae430c6))
+*   .. And the **System Design**: (![image](https://github.com/user-attachments/assets/7032b5fa-8429-4a9c-ac2c-4bb50ae430c6))
 
 ## Tech Stack
 
