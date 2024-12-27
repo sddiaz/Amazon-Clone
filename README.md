@@ -24,7 +24,7 @@ This project leverages the following technologies:
 *   **Deployment:**
     *   [Vercel](https://vercel.com/): Platform for easy deployment of Next.js applications.
 *   **State Management:**
-    *   [RTK Query]([https://reactjs.org/docs/context.html](https://redux-toolkit.js.org/rtk-query/overview)): For managing application state.
+    *   [RTK Query](https://redux-toolkit.js.org/rtk-query/overview/): For managing application state.
 
 ## Features
 
