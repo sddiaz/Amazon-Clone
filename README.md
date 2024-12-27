@@ -15,6 +15,7 @@ This project leverages the following technologies:
 ---
 
 ### **Frontend:**
+*   [Next.js](https://nextjs.org/): React framework for server-side rendering and improved performance.
 *   [React.js](https://reactjs.org/): A JavaScript library for building user interfaces.  
 *   [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.  
 ---
