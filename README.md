@@ -38,6 +38,18 @@ This project leverages the following technologies:
 *   Responsive design for various screen sizes.
 *   Server-Side Rendering (SSR) for improved SEO and performance (thanks to Next.js).
 
+User Stories: 
+Users can... 
+- Create an account
+- Login
+- Delete their account
+- View Order History
+- View Delivery Location (Nearest Zipcode)
+- View 10 most recent searches (local storage)
+- Get, Add, Remove, or Update number of products in their cart.
+- Favorite products, view Favorites.
+- View Product Details. 
+
 ## Getting Started
 
 1.  **Clone the repository:**
