@@ -19,6 +19,7 @@ This project leverages the following technologies:
     *   [React Icons](https://react-icons.github.io/react-icons/): Easily add icons to your React projects.
 *   **Backend & Database:**
     *   [Firebase](https://firebase.google.com/): Backend-as-a-service providing authentication, database (Firestore), and storage.
+    *   [Next.js](https://nextjs.org/): Next has Serverless Functions+ an API Routes feature for a solid back-end. 
 *   **Payment Processing:**
     *   [Stripe](https://stripe.com/): Secure and reliable payment gateway integration.
 *   **Deployment:**
@@ -36,6 +37,18 @@ This project leverages the following technologies:
 *   Order history and management.
 *   Responsive design for various screen sizes.
 *   Server-Side Rendering (SSR) for improved SEO and performance (thanks to Next.js).
+
+User Stories: 
+Users can... 
+- Create an account
+- Login
+- Delete their account
+- View Order History
+- View Delivery Location (Nearest Zipcode)
+- View 10 most recent searches (local storage)
+- Get, Add, Remove, or Update number of products in their cart.
+- Favorite products, view Favorites.
+- View Product Details. 
 
 ## Getting Started
 
