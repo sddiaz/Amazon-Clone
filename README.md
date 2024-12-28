@@ -19,6 +19,7 @@ This project leverages the following technologies:
     *   [React Icons](https://react-icons.github.io/react-icons/): Easily add icons to your React projects.
 *   **Backend & Database:**
     *   [Firebase](https://firebase.google.com/): Backend-as-a-service providing authentication, database (Firestore), and storage.
+    *   [Next.js](https://nextjs.org/): Next has a lightweight, Serverless Functions / API Route feature for a solid back-end. 
 *   **Payment Processing:**
     *   [Stripe](https://stripe.com/): Secure and reliable payment gateway integration.
 *   **Deployment:**
