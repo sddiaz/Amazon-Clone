@@ -5,8 +5,11 @@ import Link from "next/link";
 import { FiMapPin } from "react-icons/fi";
 import AmazonLogo from "../../../../public/amazon-logo.png";
 import "../../styles/globals.css";
+import React from "react";
+import Location from "./Location";
 
 const Navbar = () => {
+
   return (
     <>
       {/* Top Section */}
@@ -18,17 +21,7 @@ const Navbar = () => {
           </Link>
         </div>
         {/* Location */}
-        <div className="h-[90%] flex p-[10px] hover-border text-white items-center justify-between">
-          <FiMapPin className="mr-1" />
-          <div>
-            <div className="text-[#cccccc] text-[12px] font-12px">
-              Deliver to {}
-            </div>
-            <div className="text-[14px] font-12px leading-[1]">
-              Rogers AR 72758
-            </div>
-          </div>
-        </div>
+        <Location />
         {/* Search Bar */}
         <div></div>
         {/* Language */}
