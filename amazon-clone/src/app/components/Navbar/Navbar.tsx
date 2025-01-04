@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FiMapPin } from "react-icons/fi";
 import AmazonLogo from "../../../../public/amazon-logo.png";
 import "../../styles/globals.css";
 import React from "react";

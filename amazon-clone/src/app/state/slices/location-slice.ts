@@ -1,4 +1,4 @@
-import { LocationState, RootState, UserLocation } from "@/app/types/types";
+import { LocationState, RootState, UserLocation } from "@/app/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 /* Initial State */

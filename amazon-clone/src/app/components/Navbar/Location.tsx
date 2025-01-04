@@ -1,13 +1,14 @@
 "use client";
-import { getServerSideProps } from "@/app/actions";
+import React from "react";
 import { LocationService } from "@/app/services/LocationService";
 import { setUserLocation } from "@/app/state/slices/location-slice";
-import { LocationState, RootState, UserLocation } from "@/app/types/types";
+import { LocationState, RootState, UserLocation } from "@/app/types";
 import { useEffect, useState } from "react";
-import { FiMapPin } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
+import { MapPin } from 'lucide-react';
 
 const Location = () => {
+
 
   //#region Variables
 
@@ -57,7 +58,9 @@ const Location = () => {
 
   return (
     <div className="h-[90%] flex p-[10px] hover-border text-white items-center justify-between select-none">
-      <FiMapPin className="mr-1 -mb-3" />
+      <>
+      <MapPin className="mr-1 -mb-3" />
+      </>
       <div>
         <div className="text-[#cccccc] text-[12px] font-12px">
           Delivering to
