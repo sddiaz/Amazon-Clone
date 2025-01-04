@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ipAddress } from "@vercel/functions";
+import { geolocation } from '@vercel/functions';
 
 export const config = {
   runtime: 'edge',
@@ -7,18 +7,9 @@ export const config = {
 
 // src/app/api/location/route.ts
 export async function GET(request: NextRequest) {
-  const ip = ipAddress(request) || "unknown"; 
-  try {
+  const { city } = geolocation(request);
     const apiKey = process.env.GEOAPIFY_APIKEY;
-    const res = await fetch(
-      `https://api.geoapify.com/v1/ipinfo?ip=${ip}&apiKey=${apiKey}`
-    );
-    const result = await res.json();
-    return NextResponse.json({ 
-      data: result?.features[0]?.properties,
-      clientIP: ip // Return IP to client
+    return new Response(`<h1>Your location is ${city}</h1>`, {
+      headers: { 'content-type': 'text/html' },
     });
-  } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
-  }
  }
