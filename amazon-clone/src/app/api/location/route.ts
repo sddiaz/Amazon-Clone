@@ -1,25 +1,25 @@
-import { LocationRequestBody } from "@/app/types";
-import type { NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-type ResponseData = {
-  message: string;
-  [key: string]: unknown; // To handle additional properties from Geoapify
+export const config = {
+  runtime: 'edge',
 };
 
-export async function GET(body: LocationRequestBody) {
+// src/app/api/location/route.ts
+export async function GET(request: NextRequest) {
+  const headersList = headers();
+  const ip = (await headersList).get("x-forwarded-for");
   try {
-    // Securely fetch from Geoapify using server-side environment variable
     const apiKey = process.env.GEOAPIFY_APIKEY;
     const res = await fetch(
-      `https://api.geoapify.com/v1/geocode/reverse?lat=${body.lat}&lon=${body.lon}&apiKey=${apiKey}`
+      `https://api.geoapify.com/v1/ipinfo?&apiKey=${apiKey}`
     );
     const result = await res.json();
-    return NextResponse.json(
-      { data: result?.data?.features[0]?.properties },
-      { status: 200 }
-    );
+    return NextResponse.json({ 
+      data: result?.features[0]?.properties,
+      clientIP: ip // Return IP to client
+    });
   } catch (error) {
-    console.error("Error in API handler:", error);
+    return NextResponse.json({ error: error }, { status: 500 });
   }
-}
+ }
