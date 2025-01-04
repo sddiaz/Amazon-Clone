@@ -1,5 +1,5 @@
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { ipAddress } from "@vercel/functions";
 
 export const config = {
   runtime: 'edge',
@@ -7,8 +7,7 @@ export const config = {
 
 // src/app/api/location/route.ts
 export async function GET(request: NextRequest) {
-  const headersList = headers();
-  const ip = (await headersList).get("x-forwarded-for");
+  const ip = ipAddress(request) || "unknown"; 
   try {
     const apiKey = process.env.GEOAPIFY_APIKEY;
     const res = await fetch(
