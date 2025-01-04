@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   try {
     const apiKey = process.env.GEOAPIFY_APIKEY;
     const res = await fetch(
-      `https://api.geoapify.com/v1/ipinfo?&apiKey=${apiKey}`
+      `https://api.geoapify.com/v1/ipinfo?ip=${ip}&apiKey=${apiKey}`
     );
     const result = await res.json();
     return NextResponse.json({ 
