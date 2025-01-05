@@ -1,42 +1,59 @@
 "use client";
 import React from "react";
-import { LocationService } from "@/app/services/LocationService";
 import { setUserLocation } from "@/app/state/slices/location-slice";
 import { LocationState, RootState, UserLocation } from "@/app/types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MapPin } from 'lucide-react';
+import { LocationService } from "@/app/services/LocationService";
 
 const Location = () => {
 
 
   //#region Variables
 
+  const [isLocationAvailable, setIsLocationAvailable] = useState(false); 
+  const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
   const [localStorageLocation, setLocalStorageLocation] = useState<LocationState | null>(null);
   const reduxStoreLocation = useSelector((state: RootState) => state.location);
   const dispatch = useDispatch();
 
   //#endregion
 
+  //#region Methods & Helper Functions
+
+  const getActiveLocation = () => {
+    return reduxStoreLocation?.userLocation || localStorageLocation?.userLocation;
+  };
+
+  const formatLocation = (location: UserLocation | null | undefined) => {
+    if (!location) return "..."; 
+    return `${location.city} ${location.state_code} ${location.postcode}`
+  }
+
+  //#endregion
+
   //#region Hooks 
 
+  // First Check localStorage
   useEffect(() => {
-    // Access localStorage on mount
     const storedLocation = localStorage.getItem("userLocation");
     if (storedLocation) {
       setLocalStorageLocation(JSON.parse(storedLocation));
     }
-  }, []); // Runs only on component mount
+    setHasCheckedStorage(true);
+  }, []);
 
   useEffect(() => {
-    const shouldFetchLocation =
-      !localStorageLocation ||
+    if (!hasCheckedStorage) return; // Don't proceed until localStorage has been checked
+
+    const shouldFetchLocation = !localStorageLocation ||
       Date.now() - (localStorageLocation.lastFetched as number) >= 1800000;
 
     if (shouldFetchLocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         try {
-          const locationRequest = await LocationService.fetchLocation();
+          const locationRequest = await LocationService.fetchLocation(position.coords);
           if (locationRequest?.data) {
             const fetchedLocation: UserLocation = {
               city: locationRequest.data.city,
@@ -49,10 +66,14 @@ const Location = () => {
           }
         } catch (error) {
           console.error("Error fetching location:", error);
+          setIsLocationAvailable(false); 
         }
       });
     }
-  }, [localStorageLocation, dispatch]); // Dependency added for localStorageLocation
+    else {
+      setIsLocationAvailable(true); 
+    }
+  }, [hasCheckedStorage, localStorageLocation, dispatch]);
 
   //#endregion
 
@@ -66,17 +87,7 @@ const Location = () => {
           Delivering to
         </div>
         <div className="text-[14px] font-12px leading-[1]">
-          {(reduxStoreLocation.userLocation ||
-            localStorageLocation?.userLocation) && (
-            <>
-              {reduxStoreLocation.userLocation?.city ||
-                localStorageLocation?.userLocation?.city}{" "}
-              {reduxStoreLocation.userLocation?.state_code ||
-                localStorageLocation?.userLocation?.state_code}{" "}
-              {reduxStoreLocation.userLocation?.postcode ||
-                localStorageLocation?.userLocation?.postcode}
-            </>
-          )}
+          {formatLocation(getActiveLocation())}
         </div>
       </div>
     </div>

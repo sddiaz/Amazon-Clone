@@ -1,8 +1,8 @@
 export const LocationService = {
-  async fetchLocation() {
+  async fetchLocation(coords: GeolocationCoordinates) {
     const response = await fetch(
-      `/api/location`
+      `/api/location?lat=${coords.latitude}&lon=${coords.longitude}`
     );
     return response.json();
-  },
+  }
 };
