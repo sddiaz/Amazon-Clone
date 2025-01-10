@@ -41,7 +41,7 @@ const Location = () => {
       setLocalStorageLocation(JSON.parse(storedLocation));
     }
     setHasCheckedStorage(true);
-  }, []);
+  }, []); 
 
   useEffect(() => {
     if (!hasCheckedStorage) return; // Don't proceed until localStorage has been checked
@@ -66,9 +66,9 @@ const Location = () => {
             };
             dispatch(setUserLocation(fetchedLocation));
           }
-        } catch (error) {
+        } 
+        catch (error) {
           console.error("Error fetching location:", error);
-          setIsLocationAvailable(false);
         }
       });
     }
