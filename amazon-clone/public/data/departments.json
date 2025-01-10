@@ -1,0 +1,23 @@
+[
+    { "id": 0, "name": "All Departments" },
+    { "id": 1, "name": "Amazon Devices", "subcategories": ["Echo & Alexa", "Kindle", "Fire TV", "Ring", "Blink"] },
+    { "id": 2, "name": "Automotive", "subcategories": ["Parts", "Accessories", "Tools", "Tires & Wheels", "Oils & Fluids"] },
+    { "id": 3, "name": "Baby", "subcategories": ["Diapering", "Feeding", "Nursery", "Gear", "Toys"] },
+    { "id": 4, "name": "Beauty & Personal Care", "subcategories": ["Makeup", "Skincare", "Hair Care", "Fragrance", "Personal Care Appliances"] },
+    { "id": 5, "name": "Books", "subcategories": ["Fiction", "Non-Fiction", "Textbooks", "Children's Books", "Cookbooks"] },
+    { "id": 6, "name": "Clothing, Shoes & Jewelry", "subcategories": ["Men's Clothing", "Women's Clothing", "Shoes", "Jewelry", "Watches"] },
+    { "id": 7, "name": "Digital Music", "subcategories": ["Songs", "Albums", "Playlists", "Genres"] },
+    { "id": 8, "name": "Electronics", "subcategories": ["Televisions", "Headphones", "Cameras", "Computers", "Cell Phones"] },
+    { "id": 9, "name": "Food & Beverage", "subcategories": ["Beverages", "Snacks", "Pantry Staples", "Candy & Chocolate", "Coffee"] },
+    { "id": 10, "name": "Grocery & Gourmet Food", "subcategories": ["Fresh Produce", "Dairy, Cheese & Eggs", "Meat & Seafood", "Bakery & Desserts", "International Cuisine"] },
+    { "id": 11, "name": "Health & Household", "subcategories": ["Household Supplies", "Personal Care", "Health Care", "Baby & Child Care", "Household Essentials"] },
+    { "id": 12, "name": "Home & Kitchen", "subcategories": ["Kitchen & Dining", "Furniture", "Bedding", "Home Décor", "Appliances"] },
+    { "id": 13, "name": "Industrial & Scientific", "subcategories": ["Lab & Scientific Products", "Industrial Supplies", "Safety Products", "Test & Measurement", "Material Handling"] },
+    { "id": 14, "name": "Movies & TV", "subcategories": ["Blu-ray", "DVD", "Digital Downloads", "4K UHD"] },
+    { "id": 15, "name": "Musical Instruments", "subcategories": ["Guitars", "Keyboards", "Drums & Percussion", "Band & Orchestra", "Accessories"] },
+      { "id": 16, "name": "Office Products", "subcategories": ["Office Supplies", "Electronics", "Furniture", "Breakroom Supplies", "Mailing & Shipping Supplies"] },
+    { "id": 17, "name": "Pet Supplies", "subcategories": ["Dog Supplies", "Cat Supplies", "Fish & Aquatic Pets", "Bird Supplies", "Small Animal Supplies"] },
+    { "id": 18, "name": "Sports & Outdoors", "subcategories": ["Exercise & Fitness", "Outdoor Recreation", "Team Sports", "Camping & Hiking", "Cycling"] },
+    { "id": 19, "name": "Tools & Hardware", "subcategories": ["Power Tools", "Hand Tools", "Hardware", "Building Supplies", "Safety & Security"] },
+    { "id": 20, "name": "Video Games", "subcategories": ["Consoles", "Games", "Accessories", "PC Gaming"] }
+  ]

@@ -2,8 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import AmazonLogo from "../../../../public/amazon-logo.png";
 import "../../styles/globals.css";
-import React from "react";
+import Greeting from "./Greeting";
 import Location from "./Location";
+import SearchBar from "./SearchBar";
+import Orders from "./Orders";
+import Cart from "./Cart";
 
 const Navbar = () => {
 
@@ -12,7 +15,7 @@ const Navbar = () => {
       {/* Top Section */}
       <div className="p-[1px_8px_0px_6px] top-0 w-full h-[60px] bg-[var(--darkBlue)] flex items-center font-ember text-white ">
         {/* Amazon Logo */}
-        <div className="h-[90%] p-[10px]  hover-border">
+        <div className="flex-shrink-0 w-[120px] h-[90%] p-[10px]  hover-border">
           <Link href={"/"}>
             <Image src={AmazonLogo} alt="Amazon Logo" width={100} height={40} />
           </Link>
@@ -20,15 +23,13 @@ const Navbar = () => {
         {/* Location */}
         <Location />
         {/* Search Bar */}
-        <div></div>
-        {/* Language */}
-        <div></div>
-        {/* Sign In */}
-        <div></div>
+        <SearchBar />
+        {/* Greeting */}
+        <Greeting />
         {/* Returns and Orders */}
-        <div></div>
+        <Orders />
         {/* Cart */}
-        <div></div>
+        <Cart />
       </div>
 
       {/* Bottom Section */}

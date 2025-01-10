@@ -10,10 +10,7 @@ export default {
     extend: {
       fontFamily: {
         ember: ['"Amazon Ember"', 'sans-serif'],
-      },
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        emberThin: ['"Amazon Ember Thin"', 'sans-serif'],
       },
     },
   },

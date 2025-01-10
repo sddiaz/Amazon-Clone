@@ -9,6 +9,7 @@
   --navyBlue: #131a22;
   --amazonBlue: #232f3e;
   --amazonBlueLight: #37475a;
+  --amazonOrange: #ff9900;
 }
 
 body {
@@ -26,10 +27,17 @@ body {
 .hover-border:hover {
   border-color: white;
 }
+.amazon-focus:focus {
+  outline: 3px solid var(--amazonOrange);
+}
 
 @font-face {
   font-family: 'Amazon Ember';
   src: url('/fonts/Ember/Amazon-Ember-Medium.ttf') format('truetype');
-  font-weight: 500;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Amazon Ember Thin';
+  src: url('/fonts/Ember/AmazonEmber_Rg.ttf') format('truetype');
 }
