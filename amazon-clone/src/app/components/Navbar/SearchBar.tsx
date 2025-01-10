@@ -100,7 +100,7 @@ const SearchBar = () => {
                 if (e.key == "Enter") {
                   handleSearch();
                 }
-              }}
+              }} 
               type="text"
               placeholder="Search Amazon-Clone"
               className={`${
