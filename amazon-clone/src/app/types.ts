@@ -1,3 +1,5 @@
+import { UserInfo } from "firebase/auth";
+
 /* Types */
 export type UserLocation = {
   city: string;
@@ -19,7 +21,12 @@ export interface LocationState {
   lastFetched: number | null;
 };
 
+export interface AuthState {
+  user: UserInfo | null;
+}
+
 export interface RootState {
   location: LocationState;
+  user: AuthState;
   // other slices...
 };

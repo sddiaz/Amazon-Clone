@@ -1,0 +1,19 @@
+export default function MyComponent() {
+
+  //#region Variables
+
+  //#endregion
+
+  //#region Methods
+
+  //#endregion
+
+  //#region Hooks
+
+  //#endregion
+  
+  return (
+    <>
+    </>
+  );
+};

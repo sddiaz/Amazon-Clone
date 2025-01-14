@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #e3e6e6;
+  --background: #ffffff;
   --foreground: #0f1111;
   --darkBlue: #131921;
   --navyBlue: #131a22;
   --amazonBlue: #232f3e;
   --amazonBlueLight: #37475a;
   --amazonOrange: #ff9900;
+  --amazonButton: #FFD814;
+  --amazonButtonHover: #F7CA00;
+  --amazonRed: #C40000; 
+  --amazonGreen: #2b8538;
+  --amazonLink: #007185; 
 }
 
 body {
