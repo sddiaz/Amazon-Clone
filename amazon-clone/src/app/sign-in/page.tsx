@@ -35,7 +35,7 @@ export default function SignIn() {
         router.push("/"); // Redirect to home page
       }
     } catch (error) {
-      setError(error.message || "Failed to sign in with Google");
+      setError("Failed to sign in with Google");
     } 
   };
 
