@@ -1,15 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import AmazonLogo from "../../../public/amazon-logo-black.jpeg";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import AmazonLogo from "../../../public/amazon-logo-black.jpeg";
+import GoogleButton from "../components/Isolated/GoogleSignInButton/GoogleButton";
 import Alert from "../components/Shared/Alert";
 import AmazonButton from "../components/Shared/AmazonButton";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useRouter } from "next/navigation";
-import GoogleButton from "../components/Isolated/GoogleSignInButton/GoogleButton";
-import AmazonLink from "../components/Shared/AmazonLink";
+import AuthService from "../services/AuthService";
 
 export default function SignUp() {
   //#region Variables
@@ -20,9 +19,6 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-
   //#endregion
 
   //#region Methods
@@ -30,8 +26,8 @@ export default function SignUp() {
   const handleGoogleSignIn = async () => {
     try {
       setError("");
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const result = await AuthService.googleSignInUp();
+      const user = result;
       if (user) {
         router.push("/"); // Redirect to home page
       }
@@ -41,17 +37,45 @@ export default function SignUp() {
   };
 
   const handleContinue = async () => {
-    const input = document.querySelector(
-      'input[type="email"]'
-    ) as HTMLInputElement;
-
-    if (email === "") {
+    
+    const emailInput = document.querySelector('input[type="email"]') as HTMLInputElement;
+    const passwordInput = document.querySelector('input[type="password"]') as HTMLInputElement;
+    const nameArray = name.trim().split(' ');
+  
+    // Name Checks
+    if (name.trim() === '') {
+      setError("Enter your name");
+      return;
+    } else if (nameArray.length < 2) {
+      setError("Please enter both your first and last name");
+      return;
+    } 
+    // Email Checks
+    else if (email === "") {
       setError("Enter your email");
-    } else if (!input?.validity.valid) {
+    } else if (!emailInput?.validity.valid) {
       setError("Wrong or Invalid email address. Please correct and try again.");
-    } else {
-      setError("");
-      // TODO: Handle email/password sign in logic here
+    } 
+    // Password Check
+    else if (!passwordInput?.validity.valid) {
+      setError(passwordInput.title);
+    } 
+    else {
+      try {
+        setError("");
+        // Sign up the user
+        const result = await AuthService.signUp(email, password);
+        const user = result;
+        
+        if (user) {
+          // Update the user's profile with their name
+          await AuthService.updateUserProfile({
+            displayName: name.trim()
+          }).then(() => router.push("/"));
+        }
+      } catch (error) {
+        setError("Failed to create account. Please try again.");
+      }
     }
   };
 
@@ -79,21 +103,29 @@ export default function SignUp() {
             placeholder="First and last name"
           />
           <div className="font-emberThin font-semibold">Email</div>
+          {/* Email Input */}
           <input
             required
             className={`mb-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-emberThin`}
             onChange={(e) => setEmail(e?.target?.value)}
             value={email}
             type="email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            title="Please enter a valid email address"
             placeholder=""
           />
           <div className="font-emberThin font-semibold">Password</div>
+          {/* Password Input */}
           <input
             required
             className={`mb-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-emberThin`}
             onChange={(e) => setPassword(e?.target?.value)}
             value={password}
             type="password"
+            minLength={8}
+            maxLength={20}
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            title="Password must be 8-20 characters and include at least one uppercase letter, one lowercase letter, one number and one special character"
             placeholder=""
           />
           <Alert type="error" message={error} isActive={error !== ""} />
