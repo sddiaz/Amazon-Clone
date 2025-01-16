@@ -11,12 +11,13 @@ import { useRouter } from "next/navigation";
 import GoogleButton from "../components/Isolated/GoogleSignInButton/GoogleButton";
 import AmazonLink from "../components/Shared/AmazonLink";
 
-export default function SignIn() {
-
+export default function SignUp() {
   //#region Variables
 
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const auth = getAuth();
@@ -36,7 +37,7 @@ export default function SignIn() {
       }
     } catch (error) {
       setError(error.message || "Failed to sign in with Google");
-    } 
+    }
   };
 
   const handleContinue = async () => {
@@ -67,14 +68,32 @@ export default function SignIn() {
       </Link>
       <div className="">
         <div className="border rounded-md mt-4 p-10 w-[350px]">
-          <h1 className="font-emberThin text-[28px]">Sign in</h1>
-          <div className="font-emberThin">Email or mobile phone number</div>
+          <h1 className="font-emberThin text-[28px]">Create Account</h1>
+          <div className="font-emberThin font-semibold">What's your name?</div>
           <input
             required
-            className={`my-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-normal`}
+            className={`mb-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-emberThin`}
+            onChange={(e) => setName(e?.target?.value)}
+            value={name}
+            type="text"
+            placeholder="First and last name"
+          />
+          <div className="font-emberThin font-semibold">Email</div>
+          <input
+            required
+            className={`mb-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-emberThin`}
             onChange={(e) => setEmail(e?.target?.value)}
             value={email}
             type="email"
+            placeholder=""
+          />
+          <div className="font-emberThin font-semibold">Password</div>
+          <input
+            required
+            className={`mb-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-emberThin`}
+            onChange={(e) => setPassword(e?.target?.value)}
+            value={password}
+            type="password"
             placeholder=""
           />
           <Alert type="error" message={error} isActive={error !== ""} />
@@ -87,26 +106,19 @@ export default function SignIn() {
           <div className="my-2 flex justify-center">or</div>
           {/* Google Sign In Button */}
           <div className="flex justify-center">
-            <GoogleButton onClick={handleGoogleSignIn} />
+            <GoogleButton signUp onClick={handleGoogleSignIn} />
           </div>
-
-          <div className="my-2">
-            By continuing with this (and most apps), you're agreeing to some
-            <AmazonLink word href="https://nordvpn.com/blog/targeted-advertising/" text="Conditions" />
-            that you'll never actually read.
-          </div>
-          <AmazonLink style="flex justify-center" href="" text="Forgot your Password?" />
         </div>
         <div className="flex items-center justify-center gap-2 w-full my-6 text-[12px]">
           <div className="w-full h-[1px] bg-black"></div>
-          <span className="whitespace-nowrap">New to Amazon Clone?</span>
+          <span className="whitespace-nowrap">Already have an account?</span>
           <div className="w-full h-[1px] bg-black"></div>
         </div>
         <AmazonButton
           full
           type="outlined"
-          text="Create Account"
-          onClick={() => router.push("/sign-up")}
+          text="Sign in"
+          onClick={() => router.push("/sign-in")}
         />
       </div>
     </div>

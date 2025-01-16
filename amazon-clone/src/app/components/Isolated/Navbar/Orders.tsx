@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import "../../styles/globals.css";
 import Link from "next/link";
+import { useState } from "react";
+import "../../../styles/globals.css";
 
 const Orders = () => {
   
@@ -25,7 +25,7 @@ const Orders = () => {
     <Link href={isUserSignedIn ? "/orders" : "/sign-in"}>
       <span className="select-none w-[100px] h-[90%] flex flex-col p-[10px] text-[12px] hover-border text-white items-start justify-start cursor-pointer font-emberThin">
         Returns
-        <div className="text-[14px] leading-[1] font-ember whitespace-nowrap">
+        <div className="leading-[1] whitespace-nowrap heading">
           & Orders
         </div>
       </span>

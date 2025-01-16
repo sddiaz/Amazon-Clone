@@ -3,9 +3,10 @@ import './GoogleButton.css';
 
 interface GoogleButtonProps {
   onClick: () => void;
+  signUp?: boolean; 
 }
 
-const GoogleButton: React.FC<GoogleButtonProps> = ({ onClick }) => (
+const GoogleButton: React.FC<GoogleButtonProps> = ({ onClick, signUp }) => (
   <button className="gsi-material-button" onClick={onClick}>
     <div className="gsi-material-button-state"></div>
     <div className="gsi-material-button-content-wrapper">
@@ -18,8 +19,8 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ onClick }) => (
           <path fill="none" d="M0 0h48v48H0z"></path>
         </svg>
       </div>
-      <span className="gsi-material-button-contents">Sign in with Google</span>
-      <span style={{ display: 'none' }}>Sign in with Google</span>
+      <span className="gsi-material-button-contents">Sign {signUp ? "up" : "in"} with Google</span>
+      <span style={{ display: 'none' }}>Sign {signUp ? "up" : "in"} with Google</span>
     </div>
   </button>
 );

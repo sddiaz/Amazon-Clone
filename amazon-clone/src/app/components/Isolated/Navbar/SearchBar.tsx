@@ -3,8 +3,8 @@
 import { Department } from "@/app/types";
 import { Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import DepartmentData from "../../../../public/data/departments.json";
-import Overlay from "../Shared/Overlay";
+import DepartmentData from "../../../../../public/data/departments.json";
+import Overlay from "../../Shared/Overlay";
 
 const SearchBar = () => {
   //#region Variables

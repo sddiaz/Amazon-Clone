@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import AmazonLogo from "../../../../public/amazon-logo.png";
-import "../../styles/globals.css";
+import AmazonLogo from "../../../../../public/amazon-logo.png";
+import "../../../styles/globals.css";
 import Greeting from "./Greeting";
 import Location from "./Location";
 import SearchBar from "./SearchBar";
@@ -12,16 +12,29 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+
+  //#region Variables 
+
   const pathname = usePathname();
   const [shouldShowNavbar, setShouldShowNavbar] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const nonNavPaths = ["/cart", "/sign-in"];
+  const nonNavPaths = ["/cart", "/sign-in", "/sign-up"];
+
+  //#endregion
+
+  //#region Methods
+
+  //#endregion
+
+  //#region Hooks
 
   useEffect(() => {
     const shouldShow = !nonNavPaths.some((restrictedPath) => pathname === restrictedPath);
     setShouldShowNavbar(shouldShow);
     setIsLoading(false);
   }, [pathname]);
+
+  //#endregion
 
   if (isLoading) {
     return null; // or return a loading skeleton if you prefer

@@ -32,8 +32,14 @@ body {
 .hover-border:hover {
   border-color: white;
 }
+
 .amazon-focus:focus {
   outline: 3px solid var(--amazonOrange);
+}
+
+.heading {
+  font-size: 14px;
+  font-family: 'Amazon Ember';
 }
 
 @font-face {

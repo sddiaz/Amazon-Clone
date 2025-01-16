@@ -12,15 +12,16 @@ interface AmazonButtonProps {
   type: ButtonType;
   text: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
+  full?: boolean; 
 }
 
-export default function AmazonButton({ type, text, onClick }: AmazonButtonProps) {
+export default function AmazonButton(props: AmazonButtonProps) {
   return (
     <button
-      className={`w-full py-2 rounded-2xl cursor-pointer font-ember text-sm transition-colors ${buttonStyles[type]}`}
-      onClick={onClick}
+      className={`${props.full ? 'w-full' : ''} py-2 rounded-2xl cursor-pointer font-ember text-sm transition-colors ${buttonStyles[props.type]}`}
+      onClick={props.onClick}
     >
-      {text}
+      {props.text}
     </button>
   );
 }

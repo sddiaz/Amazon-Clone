@@ -11,7 +11,7 @@ import {
   
   const auth = getAuth(app);
   
-  export class AuthService {
+  export default class AuthService {
   
     static async signUp(email, password) {
       try {
