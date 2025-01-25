@@ -23,9 +23,9 @@ const Orders = () => {
 
   return (
     <Link href={isUserSignedIn ? "/orders" : "/sign-in"}>
-      <span className="select-none w-[100px] h-[90%] flex flex-col p-[10px] text-[12px] hover-border text-white items-start justify-start cursor-pointer font-emberThin">
+      <span className="select-none h-[90%] flex flex-col p-[10px] text-[12px] hover-border text-white items-start justify-start cursor-pointer font-emberThin">
         Returns
-        <div className="leading-[1] whitespace-nowrap heading">
+        <div className="leading-[1] whitespace-nowrap heading font-bold">
           & Orders
         </div>
       </span>

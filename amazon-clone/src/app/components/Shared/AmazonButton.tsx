@@ -18,10 +18,10 @@ interface AmazonButtonProps {
 export default function AmazonButton(props: AmazonButtonProps) {
   return (
     <button
-      className={`${props.full ? 'w-full' : ''} py-2 rounded-2xl cursor-pointer font-ember text-sm transition-colors ${buttonStyles[props.type]}`}
-      onClick={props.onClick}
+      className={`${props?.full ? 'w-full' : ''} py-2 rounded-2xl cursor-pointer font-ember text-sm transition-colors ${buttonStyles[props?.type]}`}
+      onClick={props?.onClick}
     >
-      {props.text}
+      {props?.text}
     </button>
   );
 }

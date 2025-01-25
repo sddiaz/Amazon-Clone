@@ -1,15 +1,17 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import AmazonLogo from "../../../../../public/amazon-logo.png";
+import { authInfoSelector } from "@/app/state/slices/auth-slice";
+import { RootState } from "@/app/types";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "../../../styles/globals.css";
+import Cart from "./Cart";
 import Greeting from "./Greeting";
 import Location from "./Location";
-import SearchBar from "./SearchBar";
+import Logo from "./Logo";
 import Orders from "./Orders";
-import Cart from "./Cart";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import SearchBar from "./SearchBar";
+import BottomBar from "./BottomBar";
 
 const Navbar = () => {
 
@@ -19,7 +21,9 @@ const Navbar = () => {
   const [shouldShowNavbar, setShouldShowNavbar] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const nonNavPaths = ["/cart", "/sign-in", "/sign-up"];
-
+  const userInfo = useSelector(authInfoSelector); 
+  const firebaseUserData = useSelector((state: RootState) => state.user); 
+  
   //#endregion
 
   //#region Methods
@@ -46,11 +50,7 @@ const Navbar = () => {
         {/* Top Section */}
         <div className="p-[1px_8px_0px_6px] top-0 w-full h-[60px] bg-[var(--darkBlue)] flex items-center font-ember text-white ">
           {/* Amazon Logo */}
-          <div className="flex-shrink-0 w-[120px] h-[90%] p-[10px] hover-border">
-            <Link href={"/"}>
-              <Image src={AmazonLogo} alt="Amazon Logo" width={100} height={40} />
-            </Link>
-          </div>
+          <Logo />
           {/* Location */}
           <Location />
           {/* Search Bar */}
@@ -60,11 +60,13 @@ const Navbar = () => {
           {/* Returns and Orders */}
           <Orders />
           {/* Cart */}
-          <Cart />
+          <Cart size={firebaseUserData?.userData?.cart?.length ?? 0}/>
         </div>
 
         {/* Bottom Section */}
-        <div className="w-full h-[39px] bg-[var(--amazonBlue)]"></div>
+        <div className="w-full h-[39px] bg-[var(--amazonBlue)] text-white flex justify-between items-center font-ember font-bold">
+          <BottomBar /> 
+        </div>
       </>
     )
   );

@@ -9,13 +9,12 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { app } from "../../lib/firebase/config";
+import { app, firestoreDb } from "../../lib/firebase/config";
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-
 export default class AuthService {
-
+  /* Firebase Auth Methods */
   static async signUp(email, password) {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -59,6 +58,28 @@ export default class AuthService {
     }
   }
 
+  static async findUserByEmail(email) {
+    const userCollection = firestoreDb.collection("users");
+    const usersByEmail = await userCollection.where("email", "==", email).get();
+    // If no documents match, querySnapshot.empty will be true
+    if (usersByEmail.empty) {
+      return {
+        doesEmailExist: false,
+        emailType: null,
+      };
+    }
+    // Get the first matching document
+    const userDoc = usersByEmail.docs[0];
+    const userData = userDoc.data();
+    
+    return {
+      doesEmailExist: true,
+      emailType: userData.authProvider,
+    };
+  }
+
+  /* User Profile Methods */
+
   static async updateUserProfile(updates) {
     try {
       const user = auth.currentUser;
@@ -80,6 +101,8 @@ export default class AuthService {
     }
   }
 
+  /* Password Methods */
+
   static async resetPassword(email) {
     try {
       await sendPasswordResetEmail(auth, email);
@@ -88,13 +111,13 @@ export default class AuthService {
     }
   }
 
+  /* Error Handling Methods */
+
   static handleError(error) {
-    // Customize error handling based on error codes
     console.error("Auth Error:", error);
     return {
       code: error.code,
       message: error.message,
-      // Map Firebase error codes to user-friendly messages
       userMessage: this.getUserFriendlyMessage(error.code),
     };
   }
@@ -104,7 +127,6 @@ export default class AuthService {
       "auth/user-not-found": "No account found with this email",
       "auth/wrong-password": "Incorrect password",
       "auth/email-already-in-use": "An account already exists with this email",
-      // Add more error mappings as needed
     };
     return errorMessages[errorCode] || "An error occurred. Please try again.";
   }

@@ -10,15 +10,16 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleButton from "../components/Isolated/GoogleSignInButton/GoogleButton";
 import AmazonLink from "../components/Shared/AmazonLink";
+import AuthService from "../services/AuthService";
 
 export default function SignIn() {
-
   //#region Variables
 
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-
+  const [password, setPassword] = useState("");
+  const [passwordFlow, setPasswordFlow] = useState(false);
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
@@ -29,14 +30,14 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     try {
       setError("");
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const result = await AuthService.googleSignInUp();
+      const user = result;
       if (user) {
         router.push("/"); // Redirect to home page
       }
     } catch (error) {
       setError("Failed to sign in with Google");
-    } 
+    }
   };
 
   const handleContinue = async () => {
@@ -49,8 +50,32 @@ export default function SignIn() {
     } else if (!input?.validity.valid) {
       setError("Wrong or Invalid email address. Please correct and try again.");
     } else {
+      // Check if email exists in users
+      const { doesEmailExist, emailType } = await AuthService.findUserByEmail(email);
+      if (doesEmailExist) {
+        if (emailType != "google.com") {
+          setError("");
+          setPasswordFlow(true);
+        }
+        else {
+          setError("You already have a Google email with us, please sign in with Google."); 
+        }
+      } else {
+        setError("No account found with this email.");
+      }
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
       setError("");
-      // TODO: Handle email/password sign in logic here
+      const result = await AuthService.signIn(email, password);
+      const user = result;
+      if (user) {
+        router.push("/"); // Redirect to home page
+      }
+    } catch (error) {
+      setError("Failed to sign in with email and password");
     }
   };
 
@@ -68,34 +93,81 @@ export default function SignIn() {
       <div className="">
         <div className="border rounded-md mt-4 p-10 w-[350px]">
           <h1 className="font-emberThin text-[28px]">Sign in</h1>
-          <div className="font-emberThin">Email or mobile phone number</div>
-          <input
-            required
-            className={`my-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-normal`}
-            onChange={(e) => setEmail(e?.target?.value)}
-            value={email}
-            type="email"
-            placeholder=""
-          />
-          <Alert type="error" message={error} isActive={error !== ""} />
-          <AmazonButton
-            full
-            type="standard"
-            text={"Continue"}
-            onClick={handleContinue}
-          />
-          <div className="my-2 flex justify-center">or</div>
-          {/* Google Sign In Button */}
-          <div className="flex justify-center">
-            <GoogleButton onClick={handleGoogleSignIn} />
-          </div>
+          {!passwordFlow && (
+            <>
+              <div className="font-emberThin">Email or mobile phone number</div>
+              <input
+                required
+                className={`my-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-normal`}
+                onChange={(e) => setEmail(e?.target?.value)}
+                value={email}
+                type="email"
+                placeholder=""
+              />
+              <Alert type="error" message={error} isActive={error !== ""} />
+              <AmazonButton
+                full
+                type="standard"
+                text={"Continue"}
+                onClick={handleContinue}
+              />
+              <div className="my-2 flex justify-center">or</div>
+              {/* Google Sign In Button */}
+              <div className="flex justify-center">
+                <GoogleButton onClick={handleGoogleSignIn} />
+              </div>
 
-          <div className="my-2">
-            By continuing with this (and most apps), you're agreeing to some
-            <AmazonLink word href="https://nordvpn.com/blog/targeted-advertising/" text="Conditions" />
-            that you'll never actually read.
-          </div>
-          <AmazonLink style="flex justify-center" href="" text="Forgot your Password?" />
+              <div className="my-2">
+                By continuing with this (and most apps), you're agreeing to some
+                <AmazonLink
+                  word
+                  href="https://nordvpn.com/blog/targeted-advertising/"
+                  text="Conditions"
+                />
+                that you'll never actually read.
+              </div>
+              <AmazonLink
+                style="flex justify-center"
+                href=""
+                text="Forgot your Password?"
+              />
+            </>
+          )}
+          {passwordFlow && (
+            <>
+              <div className="flex justify-between">
+                {email}
+                <AmazonLink
+                  style="flex justify-center"
+                  href="/sign-in"
+                  text="Not You?"
+                />
+              </div>{" "}
+              <div className="flex justify-between mt-6">
+                <div className="font-emberThin font-bold">Password</div>
+                <AmazonLink
+                  style="flex justify-center"
+                  href=""
+                  text="Forgot your Password?"
+                />
+              </div>
+              <input
+                required
+                className={`my-2 border border-black rounded-md amazon-focus w-full text-black text-sm p-1 font-normal`}
+                onChange={(e) => setPassword(e?.target?.value)}
+                value={password}
+                type="password"
+                placeholder=""
+              />
+              <Alert type="error" message={error} isActive={error !== ""} />
+              <AmazonButton
+                full
+                type="standard"
+                text={"Sign in"}
+                onClick={handleSignIn}
+              />
+            </>
+          )}
         </div>
         <div className="flex items-center justify-center gap-2 w-full my-6 text-[12px]">
           <div className="w-full h-[1px] bg-black"></div>

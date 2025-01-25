@@ -10,28 +10,29 @@ interface AmazonLinkProps {
 }
 
 export default function AmazonLink(props: AmazonLinkProps) {
-  if (props.disabled) {
+  
+  if (props?.disabled) {
     return (
       <span className="opacity-50">
-        {props.word && " "}
-        {props.text}
-        {props.word && " "}
+        {props?.word && " "}
+        {props?.text}
+        {props?.word && " "}
       </span>
     );
   }
 
   return (
     <>
-      {props.word && " "}
+      {props?.word && " "}
       <a
-        href={props.href}
-        className={`${props.style} ${
-          props.defaultColor ? "text-black" : ""
+        href={props?.href}
+        className={`${props?.style} ${
+          props?.defaultColor ? "text-black" : ""
         } text-center text-[var(--amazonLink)] hover:text-[var(--amazonOrange)] hover:underline cursor-pointer inline`}
       >
-        {props.text}
+        {props?.text}
       </a>
-      {props.word && " "}
+      {props?.word && " "}
     </>
   );
 }

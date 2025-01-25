@@ -4,12 +4,13 @@ import Overlay from "../../Shared/Overlay";
 import AmazonButton from "../../Shared/AmazonButton";
 import Divider from "@mui/material/Divider";
 import AmazonLink from "../../Shared/AmazonLink";
-import AuthService from "../../../services/AuthService"; 
+import AuthService from "../../../services/AuthService";
 
 export default function Popover(props: {
   children: ReactNode;
   isUserSignedIn: boolean;
 }) {
+  
   //#region Variables
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,24 +37,28 @@ export default function Popover(props: {
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
       >
-        {props.children}
+        {props?.children}
         {isOpen && (
           <>
             <div className="z-50 absolute top-full right-0 w-[200px] rounded shadow-lg">
               {/* Arrow */}
               <div className="absolute z-10 bg-white w-4 h-4 transform rotate-45 right-[10px]" />
               <div className="relative z-10 p-4 rounded bg-white mt-1 text-black text-[12px] font-emberThin">
-                <AmazonButton
-                  full
-                  type="standard"
-                  text="Sign In"
-                  onClick={() => router.push("/sign-in")}
-                />
-                <div className="flex w-full justify-center my-2">
-                  New User?&nbsp;
-                  <AmazonLink text="Start Here" href="/sign-in" />
-                </div>
-                <Divider />
+                {!props?.isUserSignedIn && (
+                  <>
+                    <AmazonButton
+                      full
+                      type="standard"
+                      text="Sign In"
+                      onClick={() => router.push("/sign-in")}
+                    />
+                    <div className="flex w-full justify-center my-2">
+                      New User?&nbsp;
+                      <AmazonLink text="Start Here" href="/sign-in" />
+                    </div>
+                    <Divider />
+                  </>
+                )}
                 <div className="font-emberThin text-[14px] flex justify-start flex-col font-semibold">
                   Your Account
                   <ul className="font-light">
@@ -64,23 +69,63 @@ export default function Popover(props: {
                       <AmazonLink href="" text="Orders" defaultColor />
                     </li>
                     <li>
-                      <AmazonLink disabled href="" text="Recommendations" defaultColor />
-                    </li>                    <li>
-                      <AmazonLink disabled href="" text="Watchlist" defaultColor />
-                    </li>                    <li>
-                      <AmazonLink disabled href="" text="Music Library" defaultColor />
-                    </li>                    <li>
-                      <AmazonLink disabled href="" text="Prime Membership" defaultColor />
-                    </li>                    <li>
-                      <AmazonLink disabled href="" text="Start Selling" defaultColor />
-                    </li>                    <li>
+                      <AmazonLink
+                        disabled
+                        href=""
+                        text="Recommendations"
+                        defaultColor
+                      />
+                    </li>{" "}
+                    <li>
+                      <AmazonLink
+                        disabled
+                        href=""
+                        text="Watchlist"
+                        defaultColor
+                      />
+                    </li>{" "}
+                    <li>
+                      <AmazonLink
+                        disabled
+                        href=""
+                        text="Music Library"
+                        defaultColor
+                      />
+                    </li>{" "}
+                    <li>
+                      <AmazonLink
+                        disabled
+                        href=""
+                        text="Prime Membership"
+                        defaultColor
+                      />
+                    </li>{" "}
+                    <li>
+                      <AmazonLink
+                        disabled
+                        href=""
+                        text="Start Selling"
+                        defaultColor
+                      />
+                    </li>{" "}
+                    <li>
                       <AmazonLink disabled href="" text="Kindle" defaultColor />
-                    </li>                    <li>
-                      <AmazonLink disabled href="" text="Content & Devices" defaultColor />
+                    </li>{" "}
+                    <li>
+                      <AmazonLink
+                        disabled
+                        href=""
+                        text="Content & Devices"
+                        defaultColor
+                      />
                     </li>
-                    {props.isUserSignedIn && (
+                    {props?.isUserSignedIn && (
                       <li onClick={() => AuthService.signOut()}>
-                        <AmazonLink href="/sign-in" text="Sign Out" defaultColor />
+                        <AmazonLink
+                          href="/sign-in"
+                          text="Sign Out"
+                          defaultColor
+                        />
                       </li>
                     )}
                   </ul>
