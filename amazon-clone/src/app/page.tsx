@@ -1,10 +1,10 @@
 "use client";
-import { firestoreDb } from "@/lib/firebase/config";
-import { DocumentData, QuerySnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
 
-const Home = () => {
+import AmazonCarousel from "./components/Isolated/Carousel/AmazonCarousel";
+import ProductDisplay from "./components/Shared/ProductDisplay";
 
+export default function Home() {
+  
   //#region Variables
 
   //#endregion
@@ -19,9 +19,16 @@ const Home = () => {
 
   //#region Component
 
-  return <div>Here's my home page</div>;
+  return (
+    <div className="w-full bg-[var(--amazonGrey)] overflow-hidden">
+      <div className="max-w-[1500px] mx-auto relative">
+        {/* Carousel */}
+        <AmazonCarousel />
+        {/* Products */}
+        <ProductDisplay type="category" />
+      </div>
+    </div>
+  );
 
   //#endregion
-};
-
-export default Home;
+}

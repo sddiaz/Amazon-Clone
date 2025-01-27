@@ -52,7 +52,7 @@ const Greeting = () => {
                 : "Sign in"}
             </span>
             <div className="leading-[1] flex items-center justify-center heading">
-              <span className="whitespace-nowrap font-bold">Account & Lists</span>
+              <span className="whitespace-nowrap font-emberThin font-bold">Account & Lists</span>
               <ChevronDown size={15} />
             </div>
           </span>

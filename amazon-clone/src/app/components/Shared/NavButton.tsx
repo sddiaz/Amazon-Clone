@@ -1,14 +1,26 @@
 "use client";
 
+import Link from "next/link";
 import { ReactNode } from "react";
 
-export default function NavButton(props: { children: ReactNode }) {
-  return (
-    <>
-      <span className="select-none cursor-pointer w-[135px] h-[90%] flex flex-shrink-0 whitespace-nowrap flex-col p-[10px] text-[12px] hover-border text-white items-start justify-start font-emberThin">
-        {props?.children}
-      </span>
-    </>
-  );
-};
+interface NavButtonProps {
+  children: ReactNode;
+  disabled?: boolean;
+  link?: string;
+}
 
+export default function NavButton({ children, disabled = false, link = ""}: NavButtonProps) {
+  return (
+    <Link href={link} target="_blank" rel="noopener noreferrer" className={`${
+      disabled 
+        ? 'opacity-50 pointer-events-none' 
+        : 'cursor-pointer hover:scale-105'
+    }`}>
+    <span 
+      className={`w-full select-none h-[90%] flex whitespace-nowrap p-[10px] gap-3 text-[14px] text-white items-center justify-center font-emberThin transition-transform overflow-hidden`}>
+      {children}
+    </span>
+    </Link>
+
+  );
+}

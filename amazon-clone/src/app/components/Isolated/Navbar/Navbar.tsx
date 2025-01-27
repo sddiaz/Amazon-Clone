@@ -64,9 +64,7 @@ const Navbar = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="w-full h-[39px] bg-[var(--amazonBlue)] text-white flex justify-between items-center font-ember font-bold">
-          <BottomBar /> 
-        </div>
+        <BottomBar /> 
       </>
     )
   );

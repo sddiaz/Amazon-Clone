@@ -4,6 +4,7 @@ import "./styles/globals.css";
 import ProviderWrapper from './provider'; 
 import Navbar from "./components/Isolated/Navbar/Navbar";
 import FirebaseInitializer from "@/lib/firebase/initializer";
+import Footer from "./components/Isolated/Footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
           <FirebaseInitializer />
           <Navbar />
           {children}
+          <Footer />
         </ProviderWrapper>
       </body>
     </html>

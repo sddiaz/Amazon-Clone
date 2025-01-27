@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 type ButtonType = 'standard' | 'outlined' | 'close';
 
@@ -10,18 +10,20 @@ const buttonStyles: Record<ButtonType, string> = {
 
 interface AmazonButtonProps {
   type: ButtonType;
-  text: string;
+  text?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   full?: boolean; 
+  icon?: ReactNode; 
 }
 
 export default function AmazonButton(props: AmazonButtonProps) {
   return (
     <button
-      className={`${props?.full ? 'w-full' : ''} py-2 rounded-2xl cursor-pointer font-ember text-sm transition-colors ${buttonStyles[props?.type]}`}
+      className={`${props?.full ? 'w-full' : ''} py-2 rounded-2xl cursor-pointer font-ember text-sm transition-colors ${buttonStyles[props?.type]} flex items-center justify-center`}
       onClick={props?.onClick}
     >
       {props?.text}
+      {props?.icon}
     </button>
   );
 }

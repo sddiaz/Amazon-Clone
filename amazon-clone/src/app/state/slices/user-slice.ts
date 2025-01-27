@@ -24,4 +24,4 @@ export const { setUserData, clearUserData } = authSlice.actions;
 export default authSlice.reducer;
 
 /* Selectors */
-export const userDataSelector = (state: RootState) => state.userData;
+export const userDataSelector = (state: RootState) => state.user.userData;

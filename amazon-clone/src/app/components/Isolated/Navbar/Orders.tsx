@@ -25,7 +25,7 @@ const Orders = () => {
     <Link href={isUserSignedIn ? "/orders" : "/sign-in"}>
       <span className="select-none h-[90%] flex flex-col p-[10px] text-[12px] hover-border text-white items-start justify-start cursor-pointer font-emberThin">
         Returns
-        <div className="leading-[1] whitespace-nowrap heading font-bold">
+        <div className="leading-[1] whitespace-nowrap heading font-bold font-emberThin">
           & Orders
         </div>
       </span>

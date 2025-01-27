@@ -5,8 +5,9 @@ import { Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DepartmentData from "../../../../../public/data/departments.json";
 import Overlay from "../../Shared/Overlay";
+import HelperFunctions from "@/app/services/Helpers";
 
-const SearchBar = () => {
+export default function SearchBar() {
   //#region Variables
 
   const [selectedDepartment, setSelectedDepartment] = useState(0);
@@ -14,6 +15,7 @@ const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the entire search container
+
 
   //#endregion
 
@@ -83,10 +85,11 @@ const SearchBar = () => {
             value={selectedDepartment}
             onChange={(e) => setSelectedDepartment(Number(e.target.value))}
           >
-            {(DepartmentData as Department[])?.map((x) => {
+            {(DepartmentData as Department[])?.map((dept) => {
+                  const formattedName = HelperFunctions.formatDepartmentName(dept.name); 
               return (
-                <option className="w-auto" key={x.id} value={x.id}>
-                  {x.name}
+                <option className="w-auto" key={dept.id} value={dept.id}>
+                  {formattedName}
                 </option>
               );
             })}
@@ -150,5 +153,3 @@ const SearchBar = () => {
     </>
   );
 };
-
-export default SearchBar;
