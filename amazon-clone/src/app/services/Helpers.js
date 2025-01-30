@@ -12,4 +12,29 @@ export default class HelperFunctions {
       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
     return formattedName;
   };
+  static formatDate = (date) => {
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+  };
+  static formatLocation = (location) => {
+    if (!location) return "...";
+    return `${location.city} ${location.postcode}`;
+  };
+  static minutesUntilMidnight = () => {
+    var midnight = new Date();
+    midnight.setHours(24);
+    midnight.setMinutes(0);
+    midnight.setSeconds(0);
+    midnight.setMilliseconds(0);
+    const totalMinutes = (midnight.getTime() - new Date().getTime()) / 1000 / 60;
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    const hourText = hours === 1 ? 'hour' : 'hours';
+    const minuteText = minutes === 1 ? 'minute' : 'minutes';
+    return `${hours} ${hourText} and ${minutes} ${minuteText}`;
+  };
 }

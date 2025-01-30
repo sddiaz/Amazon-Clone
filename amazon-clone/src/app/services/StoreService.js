@@ -27,7 +27,8 @@ export const StoreService = {
 
   getProductsByCategory: async (category, limit) => {
     try {
-      const response = await fetch(`${BASE_URL}/products/category/${category}${limit && `?limit=${limit}`}`);
+      if (!limit) limit = 0
+      const response = await fetch(`${BASE_URL}/products/category/${category}?limit=${limit}`);
       const data = await response.json();
       return data;
     } catch (error) {

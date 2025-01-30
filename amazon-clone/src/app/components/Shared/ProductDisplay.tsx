@@ -12,6 +12,7 @@ interface ProductDisplayProps {
 }
 
 export default function ProductDisplay(props: ProductDisplayProps) {
+
   //#region Variables
 
   const [products, setProducts] = useState([]);
@@ -21,7 +22,9 @@ export default function ProductDisplay(props: ProductDisplayProps) {
   //#endregion
 
   //#region Methods
+
   // For UI appeal, we fetch 4 random images from 7 different categories and display them.
+  
   const fetchProducts = async () => {
     try {
       // Obtain data from 7 random departments
@@ -39,7 +42,6 @@ export default function ProductDisplay(props: ProductDisplayProps) {
         )
       );
       if (selectedDepartmentData) {
-        console.log(selectedDepartmentData);
         setDepartmentData(selectedDepartmentData as []);
       }
     } catch (error) {
@@ -59,15 +61,15 @@ export default function ProductDisplay(props: ProductDisplayProps) {
   //#endregion
 
   return (
-    <div className="relative -mt-[200px]">
+    <div className="relative md:-mt-[200px] lg:-mt-[350px]">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
         {departmentData?.map((department) => (
           <div
             key={department.products[0]?.category}
-            className="bg-white rounded-lg shadow-md hover:scale-105 hover:shadow-xl transition-all duration-300 overflow-hidden"
+            className="bg-white shadow-md hover:scale-105 hover:shadow-xl transition-all duration-300 overflow-hidden"
           >
             {/* Header */}
-            <div className="p-4 border-b">
+            <div className="p-4">
               <h2 className="font-emberThin font-bold text-xl">
                 {HelperFunctions.formatDepartmentName(
                   department?.products[0]?.category
@@ -82,14 +84,19 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                   key={product.title}
                   className="aspect-square relative group"
                 >
-                  <Image
-                    loading="lazy"
-                    alt={product.title}
-                    src={product.images[0]}
-                    fill
-                    className="object-contain p-2 group-hover:scale-110 transition-transform duration-200"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                  />
+                  <Link
+                    href={`/product/${product.id}`}
+                    className="block w-full h-full relative"
+                  >
+                    <Image
+                      loading="lazy"
+                      alt={product.title}
+                      src={product.images[0]}
+                      fill
+                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-200"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </Link>
                 </div>
               ))}
             </div>
@@ -127,6 +134,9 @@ export default function ProductDisplay(props: ProductDisplayProps) {
             />
           </div>
         )}
+      </div>
+      <div className="font-emberThin font-bold text-2xl ml-9 hidden md:block">
+        Our picks for you
       </div>
     </div>
   );

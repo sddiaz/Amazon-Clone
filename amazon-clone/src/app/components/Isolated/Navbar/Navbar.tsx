@@ -12,18 +12,20 @@ import Logo from "./Logo";
 import Orders from "./Orders";
 import SearchBar from "./SearchBar";
 import BottomBar from "./BottomBar";
+import { doc, onSnapshot } from "firebase/firestore";
+import { firestoreDb } from "@/lib/firebase/config";
 
 const Navbar = () => {
 
-  //#region Variables 
+  //#region Variables
 
   const pathname = usePathname();
   const [shouldShowNavbar, setShouldShowNavbar] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const nonNavPaths = ["/cart", "/sign-in", "/sign-up"];
-  const userInfo = useSelector(authInfoSelector); 
-  const firebaseUserData = useSelector((state: RootState) => state.user); 
-  
+  const userInfo = useSelector(authInfoSelector);
+  const firebaseUserData = useSelector((state: RootState) => state.user);
+
   //#endregion
 
   //#region Methods
@@ -33,7 +35,9 @@ const Navbar = () => {
   //#region Hooks
 
   useEffect(() => {
-    const shouldShow = !nonNavPaths.some((restrictedPath) => pathname === restrictedPath);
+    const shouldShow = !nonNavPaths.some(
+      (restrictedPath) => pathname === restrictedPath
+    );
     setShouldShowNavbar(shouldShow);
     setIsLoading(false);
   }, [pathname]);
@@ -60,11 +64,18 @@ const Navbar = () => {
           {/* Returns and Orders */}
           <Orders />
           {/* Cart */}
-          <Cart size={firebaseUserData?.userData?.cart?.length ?? 0}/>
+          <Cart
+            size={
+              firebaseUserData?.userData?.cart?.reduce(
+                (acc, item) => acc + item.quantity,
+                0
+              ) ?? 0
+            }
+          />
         </div>
 
         {/* Bottom Section */}
-        <BottomBar /> 
+        <BottomBar />
       </>
     )
   );

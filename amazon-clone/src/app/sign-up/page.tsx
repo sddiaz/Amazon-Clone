@@ -8,7 +8,7 @@ import AmazonLogo from "../../../public/amazon-logo-black.jpeg";
 import GoogleButton from "../components/Isolated/GoogleSignInButton/GoogleButton";
 import Alert from "../components/Shared/Alert";
 import AmazonButton from "../components/Shared/AmazonButton";
-import AuthService from "../services/AuthService";
+import FirebaseService from "../services/FirebaseService";
 
 export default function SignUp() {
   //#region Variables
@@ -26,7 +26,7 @@ export default function SignUp() {
   const handleGoogleSignIn = async () => {
     try {
       setError("");
-      const result = await AuthService.googleSignInUp();
+      const result = await FirebaseService.googleSignInUp();
       const user = result;
       if (user) {
         router.push("/"); // Redirect to home page
@@ -64,12 +64,12 @@ export default function SignUp() {
       try {
         setError("");
         // Sign up the user
-        const result = await AuthService.signUp(email, password);
+        const result = await FirebaseService.signUp(email, password);
         const user = result;
         
         if (user) {
           // Update the user's profile with their name
-          await AuthService.updateUserProfile({
+          await FirebaseService.updateUserProfile({
             displayName: name.trim()
           }).then(() => router.push("/"));
         }

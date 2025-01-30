@@ -10,7 +10,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleButton from "../components/Isolated/GoogleSignInButton/GoogleButton";
 import AmazonLink from "../components/Shared/AmazonLink";
-import AuthService from "../services/AuthService";
+import FirebaseService from "../services/FirebaseService";
 
 export default function SignIn() {
   //#region Variables
@@ -30,7 +30,7 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     try {
       setError("");
-      const result = await AuthService.googleSignInUp();
+      const result = await FirebaseService.googleSignInUp();
       const user = result;
       if (user) {
         router.push("/"); // Redirect to home page
@@ -51,7 +51,7 @@ export default function SignIn() {
       setError("Wrong or Invalid email address. Please correct and try again.");
     } else {
       // Check if email exists in users
-      const { doesEmailExist, emailType } = await AuthService.findUserByEmail(email);
+      const { doesEmailExist, emailType } = await FirebaseService.findUserByEmail(email);
       if (doesEmailExist) {
         if (emailType != "google.com") {
           setError("");
@@ -69,7 +69,7 @@ export default function SignIn() {
   const handleSignIn = async () => {
     try {
       setError("");
-      const result = await AuthService.signIn(email, password);
+      const result = await FirebaseService.signIn(email, password);
       const user = result;
       if (user) {
         router.push("/"); // Redirect to home page

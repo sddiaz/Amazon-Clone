@@ -53,3 +53,10 @@ body {
   font-family: 'Amazon Ember Thin';
   src: url('/fonts/Ember/AmazonEmber_Rg.ttf') format('truetype');
 }
+
+@media (max-width: 768px) {
+  /* Styles for mobile view */
+  body {
+    background: red;
+  }
+}

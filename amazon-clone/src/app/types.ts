@@ -2,10 +2,10 @@ import { UserInfo } from "firebase/auth";
 
 /* Types */
 export type UserData = {
-  addressBook: string[];
+  addressBook: Address[];
   authProvider: string;
   cart: { productId: string; quantity: number }[];
-  defaultAddress: string;
+  defaultAddress: Address;
   email: string;
   favorites: { productId: string }[];
   firstName: string | undefined;
@@ -13,12 +13,11 @@ export type UserData = {
   uid: string;
 };
 
-export type UserLocation = {
+export type Address = {
   city: string;
-  country: string;
-  postcode: string;
   state: string;
-  state_code: string;
+  street: string;
+  zip: number;
 };
 
 export type Department = {
@@ -74,9 +73,22 @@ export type ProductResponse = {
   total: number;
 }
 
+export type Order = {
+  address: Address;
+  orderDate: Date;
+  orderId: string;
+  products: string[];
+  userId: string;
+}
+
+export type ExtraOrderInfo = {
+  totalOrders: number;
+  recentOrders: number; 
+}
+
 /* State Interfaces */
 export interface LocationState {
-  userLocation: UserLocation | null;
+  userLocation: Address | null;
   lastFetched: number | null;
 }
 

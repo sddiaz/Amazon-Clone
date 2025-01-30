@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/globals.css";
-import ProviderWrapper from './provider'; 
+import ProviderWrapper from "./provider";
 import Navbar from "./components/Isolated/Navbar/Navbar";
 import FirebaseInitializer from "@/lib/firebase/initializer";
 import Footer from "./components/Isolated/Footer/Footer";
@@ -34,12 +34,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ProviderWrapper>
-          <FirebaseInitializer />
-          <Navbar />
-          {children}
-          <Footer />
-        </ProviderWrapper>
+        <div className="min-h-screen flex flex-col">
+          <ProviderWrapper>
+            <FirebaseInitializer />
+            <Navbar />
+            {children}
+            <Footer />
+          </ProviderWrapper>
+        </div>
       </body>
     </html>
   );

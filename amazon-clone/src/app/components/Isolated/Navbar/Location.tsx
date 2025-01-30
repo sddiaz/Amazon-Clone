@@ -1,12 +1,14 @@
 "use client";
+import HelperFunctions from "@/app/services/Helpers";
 import { LocationService } from "@/app/services/LocationService";
 import { setUserLocation } from "@/app/state/slices/location-slice";
-import { LocationState, RootState, UserLocation } from "@/app/types";
+import { LocationState, RootState, Address } from "@/app/types";
 import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Location = () => {
+  
   //#region Variables
 
   const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
@@ -23,11 +25,6 @@ const Location = () => {
     return (
       reduxStoreLocation?.userLocation || localStorageLocation?.userLocation
     );
-  };
-
-  const formatLocation = (location: UserLocation | null | undefined) => {
-    if (!location) return "...";
-    return `${location.city} ${location.postcode}`;
   };
 
   //#endregion
@@ -57,7 +54,7 @@ const Location = () => {
             position.coords
           );
           if (locationRequest?.data) {
-            const fetchedLocation: UserLocation = {
+            const fetchedLocation: Address = {
               city: locationRequest.data.city,
               country: locationRequest.data.country,
               postcode: locationRequest.data.postcode,
@@ -78,19 +75,19 @@ const Location = () => {
 
   return (
     <>
-      {formatLocation(getActiveLocation()) != "..." &&
+      {HelperFunctions.formatLocation(getActiveLocation()) != "..." &&
         <div className="h-[90%] flex p-[10px] hover-border text-white items-center justify-between select-none">
           <>
             <MapPin className="mr-1 " />
           </>
           <div>
             <div className="text-[#cccccc] text-[12px] font-12px">
-              {formatLocation(getActiveLocation()) != "..."
+              {HelperFunctions.formatLocation(getActiveLocation()) != "..."
                 ? "Deliver to"
                 : "Checking for location"}
             </div>
             <div className="text-[14px] leading-[1] whitespace-nowrap">
-              {formatLocation(getActiveLocation())}
+              {HelperFunctions.formatLocation(getActiveLocation())}
             </div>
           </div>
         </div>

@@ -1,9 +1,9 @@
-import { LocationState, RootState, UserLocation } from "@/app/types";
+import { LocationState, RootState, Address } from "@/app/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 /* Initial State */
 const initialState: LocationState = {
-  userLocation: null as UserLocation | null,
+  userLocation: null as Address | null,
   lastFetched: null as number | null,
 };
 
@@ -14,7 +14,7 @@ const locationSlice = createSlice({
   reducers: {
     setUserLocation: (
       state,
-      action: PayloadAction<UserLocation | null> // Ensure null is allowed
+      action: PayloadAction<Address | null> // Ensure null is allowed
     ) => {
       state.userLocation = action.payload;
       state.lastFetched = Date.now(); 

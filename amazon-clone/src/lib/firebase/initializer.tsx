@@ -5,15 +5,17 @@ import { app, firestoreDb } from "./config";
 import { useDispatch } from "react-redux";
 import { setAuthInfo, clearAuthInfo } from "@/app/state/slices/auth-slice";
 import { UserInfo } from "firebase/auth";
-import { UserData } from "@/app/types";
+import { Address, UserData } from "@/app/types";
 import { setUserData } from "@/app/state/slices/user-slice";
-export default function FirebaseInitializer() {
 
+export default function FirebaseInitializer() {
   const auth = getAuth(app);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    let unsubscribeCart: () => void;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
       if (user) {
         // Auth info
         const userInfo: UserInfo = {
@@ -32,7 +34,7 @@ export default function FirebaseInitializer() {
           const userData: UserData = {
             addressBook: [],
             cart: [],
-            defaultAddress: "",
+            defaultAddress: {} as Address,
             email: user.email as string,
             favorites: [],
             firstName: user.displayName?.split(" ")[0],
@@ -41,21 +43,36 @@ export default function FirebaseInitializer() {
             authProvider: user.providerData[0].providerId,
           };
           await userRef.set(userData);
-          // Dispatch both auth info and user data
           dispatch(setAuthInfo(userInfo));
-          dispatch(setUserData(userData)); 
-        } 
-        else {
+          dispatch(setUserData(userData));
+        } else {
           dispatch(setAuthInfo(userInfo));
           dispatch(setUserData(userDoc.data()));
         }
-        
+
+        // Set up cart listener
+        unsubscribeCart = userRef.onSnapshot((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            dispatch(setUserData(userData));
+          }
+        });
       } else {
         dispatch(clearAuthInfo());
+        // Clean up cart listener when user logs out
+        if (unsubscribeCart) {
+          unsubscribeCart();
+        }
       }
     });
 
-    return () => unsubscribe();
+    // Clean up both listeners on unmount
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeCart) {
+        unsubscribeCart();
+      }
+    };
   }, [dispatch]);
 
   return null;

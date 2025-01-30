@@ -4,7 +4,7 @@ import Overlay from "../../Shared/Overlay";
 import AmazonButton from "../../Shared/AmazonButton";
 import Divider from "@mui/material/Divider";
 import AmazonLink from "../../Shared/AmazonLink";
-import AuthService from "../../../services/AuthService";
+import FirebaseService from "../../../services/FirebaseService";
 
 export default function Popover(props: {
   children: ReactNode;
@@ -120,7 +120,7 @@ export default function Popover(props: {
                       />
                     </li>
                     {props?.isUserSignedIn && (
-                      <li onClick={() => AuthService.signOut()}>
+                      <li onClick={() => FirebaseService.signOut()}>
                         <AmazonLink
                           href="/sign-in"
                           text="Sign Out"
