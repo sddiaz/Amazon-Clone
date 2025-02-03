@@ -56,7 +56,4 @@ body {
 
 @media (max-width: 768px) {
   /* Styles for mobile view */
-  body {
-    background: red;
-  }
 }

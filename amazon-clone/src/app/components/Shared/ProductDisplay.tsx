@@ -135,9 +135,6 @@ export default function ProductDisplay(props: ProductDisplayProps) {
           </div>
         )}
       </div>
-      <div className="font-emberThin font-bold text-2xl ml-9 hidden md:block">
-        Our picks for you
-      </div>
     </div>
   );
 }

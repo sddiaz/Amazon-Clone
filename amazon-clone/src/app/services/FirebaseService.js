@@ -195,7 +195,7 @@ export default class FirebaseService {
         const userData = userDoc.data();
         const cart = userData.cart;
 
-        const existingItemIndex = cart.findIndex(
+        const existingItemIndex = cart?.findIndex(
           (product) => product.productId === productId
         );
 
@@ -216,6 +216,78 @@ export default class FirebaseService {
               productId: productId,
               quantity: quantity,
             }),
+          });
+          return true;
+        }
+      } else {
+        throw new Error("User Not Found.");
+      }
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  static async removeItemFromCart(userId, productId) {
+    // Get current user
+    const userRef = firestoreDb.collection("users").doc(userId);
+    const userDoc = await userRef.get();
+
+    try {
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        const cart = userData.cart;
+
+        // Find the item index
+        const itemIndex = cart?.findIndex(
+          (product) => product.productId === productId
+        );
+
+        if (itemIndex !== -1) {
+          // Item exists - remove it from cart
+          cart[itemIndex].quantity -= 1;
+          
+          if (cart[itemIndex].quantity == 0) {
+            cart.splice(itemIndex, 1); 
+          }
+          // Update the entire cart array in Firestore
+          await userRef.update({
+            cart: cart,
+          });
+
+          return true;
+        } else {
+          // Item doesn't exist in cart
+          throw new Error("Item not found in cart.");
+        }
+      } else {
+        throw new Error("User Not Found.");
+      }
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  static async addItemToWishlist(userId, productId) {
+    // Get current user
+    const userRef = firestoreDb.collection("users").doc(userId);
+    const userDoc = await userRef.get();
+
+    try {
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        const wishlist = userData.wishlist;
+
+        const existingItemIndex = wishlist?.findIndex(
+          (item) => item === productId
+        );
+
+        if (existingItemIndex !== -1) {
+          // Item exists - Continue
+          return false;
+        } else {
+          // Item doesn't exist - add new item
+          await userRef.update({
+            wishlist: arrayUnion(productId),
           });
           return true;
         }

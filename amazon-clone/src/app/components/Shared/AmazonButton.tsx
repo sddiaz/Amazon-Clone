@@ -31,6 +31,7 @@ export default function AmazonButton(props: AmazonButtonProps) {
         text-sm 
         transition-colors 
         select-none
+        p-2
         ${buttonStyles[type]}
         ${disabled ? "opacity-50 pointer-events-none" : ""}
         flex 

@@ -10,6 +10,7 @@ export type UserData = {
   favorites: { productId: string }[];
   firstName: string | undefined;
   lastName: string | undefined;
+  wishlist: string[]; 
   uid: string;
 };
 

@@ -22,7 +22,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const [shouldShowNavbar, setShouldShowNavbar] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const nonNavPaths = ["/cart", "/sign-in", "/sign-up"];
+  const nonNavPaths = ["/sign-in", "/sign-up"];
   const userInfo = useSelector(authInfoSelector);
   const firebaseUserData = useSelector((state: RootState) => state.user);
 
