@@ -31,10 +31,10 @@ export default function CategoryCard({ product, selected }: CategoryCardProps) {
 
   return (
     
-    <div onClick={handleClick} className="cursor-pointer bg-white">
+    <div onClick={handleClick} className="cursor-pointer bg-white hover:scale-105 hover:shadow-md transition-all duration-200">
       <div className="relative w-56 h-56">
         <Image
-          src={product.thumbnail}
+          src={product.images[0]}
           alt={product.title}
           fill
           className=" rounded-md object-cover"

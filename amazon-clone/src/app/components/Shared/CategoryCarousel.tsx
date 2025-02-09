@@ -8,7 +8,6 @@ interface CategoryCarouselProps {
 }
 
 export default function CategoryCarousel(props: CategoryCarouselProps) {
-    
   //#region Variables
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -46,17 +45,20 @@ export default function CategoryCarousel(props: CategoryCarouselProps) {
   //#endregion
 
   return (
-    <div className="flex justify-center gap-2 mb-[100px]">
-      {categoryData?.map((item, index) => {
-        return (
-          <div key={index} onMouseOver={() => setSelectedIndex(index)}>
-            <CategoryCard
-              product={item}
-              selected={selectedIndex == index}
-            />
-          </div>
-        );
-      })}
+    <div className="relative w-full px-4 mb-16 justify-center flex">
+      <div className="overflow-x-auto overflow-y-visible py-4 px-2">
+        <div className="flex gap-2 min-w-min">
+          {categoryData?.map((item, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0"
+              onMouseOver={() => setSelectedIndex(index)}
+            >
+              <CategoryCard product={item} selected={selectedIndex === index} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -5,15 +5,15 @@ import AmazonLink from "./AmazonLink";
 
 interface RatingProps {
   rating: number;
+  size: string;
 }
 
 export default function AmazonRating(props: RatingProps) {
-
   //#region Variables
 
   const fullStars = Math.floor(props.rating);
   const hasHalfStar = props.rating % 1 >= 0.5;
-  
+
   //#endregion
 
   //#region Methods
@@ -29,15 +29,24 @@ export default function AmazonRating(props: RatingProps) {
 
   return (
     <div className="flex items-center gap-0.5 align-center">
-      {[...Array(5)].map((_, index) => (
-        <Star
-          key={index}
-          size={16}
-          className={getStarColor(index)}
-          strokeWidth={0}
-        />
-      ))}
-      <AmazonLink href="" text={props.rating.toString()} style="text-xs ml-1 mt-1 font-bold" />
+      <div className={`${props?.size == "large" ? "order-1" : "order-2"} flex`}>
+        {[...Array(5)].map((_, index) => (
+          <Star
+            key={index}
+            size={props?.size == "large" ? 24 : 16}
+            className={getStarColor(index)}
+            strokeWidth={0}
+          />
+        ))}
+      </div>
+
+      <div
+        className={`${
+          props?.size == "large" ? "text-xs" : "text-xs"
+        } ml-1 mt-1 order-1 font-emberThin text-nowrap`}
+      >
+        {props.rating.toString() + (props?.size == "large" ? " out of 5" : "")}
+      </div>
     </div>
   );
 }
