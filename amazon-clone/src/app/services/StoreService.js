@@ -58,6 +58,25 @@ export const StoreService = {
     }
   },
 
+  getWishlistProducts: async (wishlist) => {
+    try {
+      const response = await fetch(`${BASE_URL}/products?limit=0`);
+      const data = await response.json();
+
+      const productMap = new Map(
+        data?.products?.map((product) => [product.id, product])
+      );
+
+      return wishlist
+        .map((item) => ({
+          productData: productMap.get(Number(item)),
+        }))
+        .filter((item) => item.productData != undefined);
+    } catch (error) {
+      throw error;
+    }
+  },
+
   searchProducts: async (query) => {
     try {
       const response = await fetch(`${BASE_URL}/products/search?q=${query}`);
