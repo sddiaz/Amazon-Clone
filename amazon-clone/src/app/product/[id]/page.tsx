@@ -24,11 +24,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Prime from "../../../../public/prime-logo.png";
 
-interface ProductPageProps {
-  href: string;
-}
-
-export default function Page(props: ProductPageProps) {
+export default function Page() {
   
   //#region Variables
 

@@ -1,11 +1,19 @@
 "use client";
 
-import { Department } from "@/app/types";
+import HelperFunctions from "@/app/services/Helpers";
+import { StoreService } from "@/app/services/StoreService";
+import { Department, Product } from "@/app/types";
+import { debounce } from "lodash";
 import { Search, X } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import DepartmentData from "../../../../../public/data/departments.json";
 import Overlay from "../../Shared/Overlay";
-import HelperFunctions from "@/app/services/Helpers";
+
+type Suggestion = {
+  id: string;
+  title: string;
+};
 
 export default function SearchBar() {
   //#region Variables
@@ -13,38 +21,130 @@ export default function SearchBar() {
   const [selectedDepartment, setSelectedDepartment] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null); // Ref for the entire search container
-
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   //#endregion
 
-  //#region Methods & Helper Functions
-
-  const handleSearch = () => {
-    // Update Search Suggestions
-    const stored = localStorage.getItem("suggestions");
-    const localSuggestions = stored ? [...JSON.parse(stored)] : [];
-    if (!localSuggestions.includes(searchInput)) {
-      const newSuggestions = [...localSuggestions, searchInput];
-      setSuggestions(newSuggestions);
-      localStorage.setItem("suggestions", JSON.stringify(newSuggestions));
+  const loadRecentSearches = () => {
+    const stored = localStorage.getItem("recentSearches");
+    if (stored) {
+      try {
+        const parsedSuggestions = JSON.parse(stored);
+        setSuggestions(parsedSuggestions);
+      } catch (error) {
+        console.error("Error parsing recent searches:", error);
+        setSuggestions([]);
+      }
     }
   };
 
-  const handleDeleteSuggestion = (suggestion: string) => {
-    const newSuggestions = suggestions.filter(item => item !== suggestion);
-    setSuggestions(newSuggestions);
-    localStorage.setItem("suggestions", JSON.stringify(newSuggestions));
+  const fetchProductSuggestions = async (query: string) => {
+    if (!query.trim()) {
+      loadRecentSearches();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await StoreService.searchProducts(query);
+      const newSuggestions = result?.products?.map((item: Product) => ({
+        id: item.id,
+        title: item.title,
+      }));
+      setSuggestions(newSuggestions);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  //#endregion
+  const debouncedFetch = debounce(fetchProductSuggestions, 500);
 
-  //#region Hooks
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchInput(value);
+    setSelectedIndex(-1);
+    debouncedFetch(value);
+  };
+
+  const handleRecentSearch = (suggestion: Suggestion) => {
+    try {
+      // Get existing searches from localStorage
+      const storedSearches = localStorage.getItem("recentSearches");
+      let searches: Suggestion[] = storedSearches ? JSON.parse(storedSearches) : [];
+      
+      // Remove duplicate if exists
+      searches = searches.filter(item => item.id !== suggestion.id);
+      
+      // Add new suggestion to the beginning
+      searches.unshift(suggestion);
+      
+      // Keep only the last 10 searches
+      searches = searches.slice(0, 10);
+      
+      // Save back to localStorage
+      localStorage.setItem("recentSearches", JSON.stringify(searches));
+      
+    } catch (error) {
+      console.error("Error saving recent search:", error);
+    }
+  };
+
+  const handleDeleteSuggestion = (suggestionToDelete: Suggestion) => {
+    const stored = localStorage.getItem("recentSearches");
+    if (stored) {
+      const localSuggestions = JSON.parse(stored).filter((item: Suggestion) => item.id !== suggestionToDelete.id);
+  
+      if (localSuggestions.length > 0) {
+        localStorage.setItem("recentSearches", JSON.stringify(localSuggestions));
+      } else {
+        localStorage.removeItem("recentSearches"); // Remove key if array is empty
+      }
+  
+      setSuggestions(localSuggestions);
+    }
+  };
+  
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isSearching) return;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev > -1 ? prev - 1 : prev));
+        break;
+      case "Enter":
+        if (selectedIndex >= 0) {
+          const selected = suggestions[selectedIndex];
+          setSearchInput(
+            typeof selected === "string" ? selected : selected.title
+          );
+        }
+        break;
+      case "Escape":
+        setIsSearching(false);
+        break;
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsSearching(false);
       }
     };
@@ -53,25 +153,11 @@ export default function SearchBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    // This code will only run in the browser
-    const storedSuggestions = localStorage.getItem("suggestions");
-    if (storedSuggestions) {
-      const parsedSuggestions = JSON.parse(storedSuggestions).filter(
-        (suggestion: string) =>
-          suggestion?.toLowerCase().includes(searchInput.toLowerCase())
-      );
-      setSuggestions(parsedSuggestions);
-    }
-  }, [searchInput]);
-
-  //#endregion
-
   return (
     <>
       {isSearching && <Overlay />}
       <div
-        ref={containerRef} // Attach ref to the entire container
+        ref={containerRef}
         id="searchFill"
         className="w-[100%] h-[100%] flex p-[10px] text-white items-center justify-between"
       >
@@ -86,7 +172,9 @@ export default function SearchBar() {
             onChange={(e) => setSelectedDepartment(Number(e.target.value))}
           >
             {(DepartmentData as Department[])?.map((dept) => {
-                  const formattedName = HelperFunctions.formatDepartmentName(dept.name); 
+              const formattedName = HelperFunctions.formatDepartmentName(
+                dept.name
+              );
               return (
                 <option className="w-auto" key={dept.id} value={dept.id}>
                   {formattedName}
@@ -96,14 +184,14 @@ export default function SearchBar() {
           </select>
           <div className="relative flex-1 h-full">
             <input
+              ref={inputRef}
               value={searchInput}
-              onChange={(e) => setSearchInput(e?.target?.value)}
-              onFocus={() => setIsSearching(true)}
-              onKeyDown={(e) => {
-                if (e.key == "Enter") {
-                  handleSearch();
-                }
-              }} 
+              onChange={handleInputChange}
+              onFocus={() => {
+                setIsSearching(true);
+                loadRecentSearches(); // Load recent searches when input is focused
+              }}
+              onKeyDown={handleKeyDown}
               type="text"
               placeholder="Search Amazon-Clone"
               className={`${
@@ -112,39 +200,65 @@ export default function SearchBar() {
             />
 
             {/* Suggestions Panel */}
-            {isSearching && suggestions.length > 0 && 
+            {isSearching && (
               <div className="absolute w-full bg-white border border-gray-300 rounded-b shadow-lg z-50">
-                  <ul className="max-h-96 overflow-y-auto">
-                    {suggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
-                        onClick={() => {
-                          setSearchInput(suggestion);
-                          setSuggestions([...suggestions]); // Force re-render
-                        }}
-                      >
-                        <div className="flex items-center justify-between text-[#000] text-[14px]">
-                          {suggestion}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteSuggestion(suggestion);
-                            }}
-                          >
-                            <X size={16} className="mr-2" />
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-              </div>}
+                <ul className="max-h-96 overflow-y-auto">
+                  {loading ? (
+                    <li className="px-4 py-2 text-gray-500">Loading...</li>
+                  ) : suggestions.length > 0 ? (
+                    <>
+                      {isSearching && searchInput == "" && (
+                        <li className="px-4 py-2 text-gray-500 text-sm">
+                          Recent Searches
+                        </li>
+                      )}
+                      {suggestions.map((suggestion, index) => (
+                        <li
+                          key={suggestion.id}
+                          className={`px-4 py-2 cursor-pointer text-gray-700 ${
+                            index === selectedIndex
+                              ? "bg-gray-100"
+                              : "hover:bg-gray-100"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-[#000] text-[14px]">
+                            <Link
+                              href={`/product/${suggestion.id}`}
+                              className="block w-full h-full relative"
+                              onClick={() => {
+                                handleRecentSearch(suggestion);
+                                setIsSearching(false);
+                              }}
+                            >
+                              {suggestion.title}
+                            </Link>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteSuggestion(suggestion);
+                              }}
+                            >
+                              <X size={16} className="mr-2" />
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </>
+                  ) : searchInput.trim() ? (
+                    <li className="px-4 py-2 text-gray-500">
+                      No results found
+                    </li>
+                  ) : null}
+                </ul>
+              </div>
+            )}
           </div>
           <button
             id="searchButton"
-            className="amazon-focus rounded-r-lg focus:z-10 relative bg-orange-300 hover:bg-orange-400 h-[100%] w-[80px] flex justify-center items-center "
+            className="amazon-focus rounded-r-lg focus:z-10 relative bg-orange-300 hover:bg-orange-400 h-[100%] w-[80px] flex justify-center items-center"
+            onClick={() => {}}
           >
-            <div className="text-gray-600" onClick={handleSearch}>
+            <div className="text-gray-600">
               <Search size={23} />
             </div>
           </button>
@@ -152,4 +266,4 @@ export default function SearchBar() {
       </div>
     </>
   );
-};
+}

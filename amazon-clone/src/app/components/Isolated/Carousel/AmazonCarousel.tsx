@@ -1,47 +1,63 @@
 "use client";
-import React from "react";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import NewDealsAd from "../../../../../public/new-deals-ad.jpg";
-import RyzeAd from "../../../../../public/ryze-ad.jpg";
-import RankedAd from "../../../../../public/ranked-ad.jpg"; 
-
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
-export default function AmazonCarousel() {
+const AmazonCarousel = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  
+  const images = [
+    {
+      src: "/ranked-ad.jpg",
+      alt: "Ranked Advertisement"
+    },
+    {
+      src: "/new-deals-ad.jpg",
+      alt: "New Deals Advertisement"
+    },
+    {
+      src: "/ryze-ad.jpg",
+      alt: "Ryze Advertisement"
+    }
+  ];
 
-  //#region Variables
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentImageIndex((prevIndex) => 
+          prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+        setIsTransitioning(false);
+      }, 500); // Half of our transition duration
+    }, 5000);
 
-  const images = [RankedAd, NewDealsAd, RyzeAd];
-
-  //#endregion
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <div className="relative">
-      <Carousel
-        autoPlay
-        infiniteLoop
-        showArrows={false}
-        showStatus={false}
-        showIndicators={false}
-        showThumbs={false}
-        interval={5000}
-      >
-        {images.map((image) => {
-          return (
-            <div key={image.blurDataURL}>
-              <Image
-                src={image}
-                alt={image.src}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-40% to-[var(--amazonGrey)]" />
-            </div>
-          );
-        })}
-      </Carousel>
+    <div className="relative w-full h-[600px] overflow-hidden">
+      {images.map((image, index) => (
+        <div
+          key={image.src}
+          className={`absolute w-full h-full transition-opacity duration-1000 ${
+            currentImageIndex === index
+              ? "opacity-100"
+              : "opacity-0"
+          }`}
+        >
+          <Image
+            src={image.src}
+            alt={image.alt}
+            className="object-cover"
+            fill
+            priority={index === 0}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-40% to-[var(--amazonGrey)]" />
+        </div>
+      ))}
     </div>
   );
+};
 
-  //#endregion
-}
+export default AmazonCarousel;

@@ -57,4 +57,16 @@ export const StoreService = {
       throw error;
     }
   },
+
+  searchProducts: async (query) => {
+    try {
+      const response = await fetch(`${BASE_URL}/products/search?q=${query}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      throw error;
+    }
+  },
+
 };

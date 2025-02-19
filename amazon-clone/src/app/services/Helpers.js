@@ -21,7 +21,7 @@ export default class HelperFunctions {
   };
   static formatLocation = (location) => {
     if (!location) return "...";
-    return `${location.city} ${location.postcode}`;
+    return `${location.city}, ${location.state}`;
   };
   static minutesUntilMidnight = () => {
     var midnight = new Date();

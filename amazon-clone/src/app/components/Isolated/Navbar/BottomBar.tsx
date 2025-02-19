@@ -21,25 +21,25 @@ const BottomBar = () => {
         <Menu />
         All
       </NavButton>
+      <NavButton>
+        <ShoppingBag />
+        Buy Again
+      </NavButton>
       <NavButton link="https://www.linkedin.com/in/santiagoddiaz/">
         <Video />
         Prime Video
       </NavButton>
-      <NavButton>
+      <NavButton disabled>
         <Cpu />
         Electronics
       </NavButton>
-      <NavButton>
+      <NavButton disabled>
         <Gem />
         Jewelry
       </NavButton>
-      <NavButton>
+      <NavButton disabled>
         <Shirt />
         Clothing
-      </NavButton>
-      <NavButton>
-        <ShoppingBag />
-        Buy Again
       </NavButton>
       <NavButton disabled>
         <Gift />

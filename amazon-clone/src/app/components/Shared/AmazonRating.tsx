@@ -5,7 +5,7 @@ import AmazonLink from "./AmazonLink";
 
 interface RatingProps {
   rating: number;
-  size: string;
+  size?: string;
 }
 
 export default function AmazonRating(props: RatingProps) {

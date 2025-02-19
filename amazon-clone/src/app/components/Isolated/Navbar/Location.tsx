@@ -56,11 +56,8 @@ const Location = () => {
           if (locationRequest?.data) {
             const fetchedLocation: Address = {
               city: locationRequest.data.city,
-              country: locationRequest.data.country,
-              postcode: locationRequest.data.postcode,
               state: locationRequest.data.state,
-              state_code: locationRequest.data.state_code,
-            };
+            } as Address;
             dispatch(setUserLocation(fetchedLocation));
           }
         } 

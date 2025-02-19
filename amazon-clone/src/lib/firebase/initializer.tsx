@@ -41,6 +41,7 @@ export default function FirebaseInitializer() {
             lastName: user.displayName?.split(" ")[1],
             uid: user.uid,
             authProvider: user.providerData[0].providerId,
+            wishlist: []
           };
           await userRef.set(userData);
           dispatch(setAuthInfo(userInfo));

@@ -64,18 +64,10 @@ export default function Reviews(props: ReviewProps) {
   //#region Hooks
 
   useEffect(() => {
-    if (props?.productInfo) {
-      const sorted = sortReviews(props?.productInfo.reviews, searchType);
-      setSortedReviews(sorted);
+    if (props.productInfo?.reviews) {
+      setSortedReviews(sortReviews(props.productInfo.reviews, searchType));
     }
-  }, [props]);
-
-  useEffect(() => {
-    if (productInfo?.reviews) {
-      const sorted = sortReviews(productInfo.reviews, searchType);
-      setSortedReviews(sorted);
-    }
-  }, [searchType, productInfo?.reviews]);
+  }, [searchType, props.productInfo]);
 
   //#endregion
 
